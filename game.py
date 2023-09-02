@@ -5,6 +5,7 @@ from obstacle import Obstacle
 
 class Game():
 	def __init__(self, screen_width, screen_height):
+		self.screen_width = screen_width
 		self.spaceship = pygame.sprite.GroupSingle()
 		self.spaceship.add(Spaceship(screen_width, screen_height))
 		self.obstacle_1 = Obstacle(screen_width/4 - 128,screen_height - 100)
@@ -12,6 +13,7 @@ class Game():
 		self.obstacle_3 = Obstacle((screen_width/4)*3 - 128,screen_height - 100)
 		self.obstacle_4 = Obstacle((screen_width/4)*4 - 128,screen_height - 100)
 		self.aliens = pygame.sprite.Group()
+		self.alien_direction = 1
 		self.create_aliens()
 
 	def create_aliens(self):
@@ -26,3 +28,18 @@ class Game():
 				else:
 					alien_sprite = Alien(1, 75 + x, 80 + y)
 				self.aliens.add(alien_sprite)
+
+	def alien_position_checker(self):
+		alien_sprites = self.aliens.sprites()
+		for alien in alien_sprites:
+			if alien.rect.right >= self.screen_width:
+				self.alien_direction = -1
+				self.alien_move_down(2) 
+			elif alien.rect.left <= 0:
+				self.alien_direction = 1
+				self.alien_move_down(2)
+
+	def alien_move_down(self, distance):
+		if self.aliens:
+			for alien in self.aliens.sprites():
+				alien.rect.y += distance

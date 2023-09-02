@@ -26,9 +26,11 @@ while True:
 
 	screen.fill(GREY)
 	game.spaceship.update()
-	game.aliens.update(1)
-	game.spaceship.draw(screen)
+
+	game.alien_position_checker()
+	game.aliens.update(game.alien_direction)
 	
+	game.spaceship.draw(screen)
 	game.spaceship.sprite.lasers.draw(screen)
 	game.obstacle_1.blocks.draw(screen)
 	game.obstacle_2.blocks.draw(screen)
