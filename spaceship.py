@@ -3,10 +3,10 @@ from laser import Laser
 
 class Spaceship(pygame.sprite.Sprite):
 
-	def __init__(self, screen_width, screen_height):
+	def __init__(self, screen_width, screen_height, offset):
 		super().__init__()
 		self.image = pygame.image.load("Graphics/ship.png")
-		self.rect = self.image.get_rect(midbottom = (screen_width/2, screen_height))
+		self.rect = self.image.get_rect(midbottom = ((screen_width+offset)/2, screen_height))
 		self.speed = 5
 		self.screen_width = screen_width
 		self.screen_height = screen_height

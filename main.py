@@ -10,8 +10,9 @@ GREY = (29, 29, 27)
 YELLOW = (243, 216, 63)
 SCREEN_WIDTH = 750
 SCREEN_HEIGHT = 700
+OFFSET = 50
 
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+screen = pygame.display.set_mode((SCREEN_WIDTH + OFFSET, SCREEN_HEIGHT + 2*OFFSET))
 pygame.display.set_caption("Space Invaders")
 
 clock = pygame.time.Clock()
@@ -19,9 +20,9 @@ ALIENLASER = pygame.USEREVENT
 pygame.time.set_timer(ALIENLASER, 500)
 
 MYSTERYSHIP = pygame.USEREVENT + 1 
-pygame.time.set_timer(MYSTERYSHIP, random.randint(5000,10000))
+pygame.time.set_timer(MYSTERYSHIP, random.randint(10000,20000))
 
-game = Game(SCREEN_WIDTH, SCREEN_HEIGHT)
+game = Game(SCREEN_WIDTH, SCREEN_HEIGHT, OFFSET)
  
 while True:
 	for event in pygame.event.get():
@@ -34,6 +35,8 @@ while True:
 			game.create_mystery_ship()
 
 	screen.fill(GREY)
+	pygame.draw.rect(screen, YELLOW, (10, 10 ,775, 775), 2, 0, 60, 60, 60, 60)
+	pygame.draw.line(screen, YELLOW, (25, 800 - 70), (800 -25, 800 - 70), 3)
 	
 	game.alien_lasers.update()
 	game.spaceship.update()
@@ -52,8 +55,6 @@ while True:
 	game.aliens.draw(screen)
 	game.alien_lasers.draw(screen)
 	game.mystery_ship.draw(screen)
-
-	#pygame.draw.rect(screen, YELLOW, (10, 10 ,780, 780), 2, 0, 60, 60, 60, 60)
-	#pygame.draw.line(screen, YELLOW, (25, 800 - 70), (800 -25, 800 - 70), 3)
+	
 	pygame.display.update()
 	clock.tick(60)
