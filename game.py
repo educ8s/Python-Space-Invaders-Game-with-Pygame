@@ -1,11 +1,14 @@
-import pygame
+import pygame, random
 from spaceship import Spaceship
 from alien import Alien
+from alien import MysteryShip
 from obstacle import Obstacle
+from laser import Laser
 
 class Game():
 	def __init__(self, screen_width, screen_height):
 		self.screen_width = screen_width
+		self.screen_height = screen_height
 		self.spaceship = pygame.sprite.GroupSingle()
 		self.spaceship.add(Spaceship(screen_width, screen_height))
 		self.obstacle_1 = Obstacle(screen_width/4 - 128,screen_height - 100)
@@ -13,8 +16,21 @@ class Game():
 		self.obstacle_3 = Obstacle((screen_width/4)*3 - 128,screen_height - 100)
 		self.obstacle_4 = Obstacle((screen_width/4)*4 - 128,screen_height - 100)
 		self.aliens = pygame.sprite.Group()
-		self.alien_direction = 1
+		self.alien_lasers = pygame.sprite.Group()
+		self.mystery_ship = pygame.sprite.GroupSingle()
+		self.alien_direction = 1		
 		self.create_aliens()
+
+	def create_mystery_ship(self):
+		self.mystery_ship.add(MysteryShip(self.screen_width))
+
+	def check_for_collisions(self):
+	    if self.spaceship.sprite.lasers:
+	        for laser in self.spaceship.sprite.lasers:
+	            for obstacle in [self.obstacle_1, self.obstacle_2, self.obstacle_3, self.obstacle_4]:
+	                if pygame.sprite.spritecollide(laser, obstacle.blocks, True):
+	                    laser.kill()
+	                    print("Collision")      	  
 
 	def create_aliens(self):
 		for row in range(5):
@@ -43,3 +59,9 @@ class Game():
 		if self.aliens:
 			for alien in self.aliens.sprites():
 				alien.rect.y += distance
+
+	def alien_shoot_laser(self):
+		if self.aliens.sprites():
+			random_alien = random.choice(self.aliens.sprites())
+			laser_sprite = Laser(random_alien.rect.center, -6, self.screen_height)
+			self.alien_lasers.add(laser_sprite)
