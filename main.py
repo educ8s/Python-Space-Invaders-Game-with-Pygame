@@ -17,7 +17,7 @@ pygame.display.set_caption("Space Invaders")
 
 clock = pygame.time.Clock()
 ALIENLASER = pygame.USEREVENT
-pygame.time.set_timer(ALIENLASER, 500)
+pygame.time.set_timer(ALIENLASER, 300)
 
 MYSTERYSHIP = pygame.USEREVENT + 1 
 pygame.time.set_timer(MYSTERYSHIP, random.randint(10000,20000))
