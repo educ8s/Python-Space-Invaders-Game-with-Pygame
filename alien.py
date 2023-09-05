@@ -3,6 +3,7 @@ import pygame, random
 class Alien(pygame.sprite.Sprite):
 	def __init__(self, type, x, y):
 		super().__init__()
+		self.type = type
 		path = f"Graphics/alien_{type}.png"
 		self.image = pygame.image.load(path)
 		self.rect = self.image.get_rect(topleft = (x, y))
@@ -21,7 +22,7 @@ class MysteryShip(pygame.sprite.Sprite):
 			self.speed = 3
 		else:
 			self.speed = -3
-		self.rect = self.image.get_rect(topleft = (x, 50))
+		self.rect = self.image.get_rect(topleft = (x, 70))
 
 	def update(self):
 		self.rect.x += self.speed 

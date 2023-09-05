@@ -10,6 +10,7 @@ class Spaceship(pygame.sprite.Sprite):
 		self.speed = 5
 		self.screen_width = screen_width
 		self.screen_height = screen_height
+		self.offset = offset
 		self.laser_ready = True
 		self.laser_time = 0
 		self.laser_cooldown = 300
@@ -46,3 +47,6 @@ class Spaceship(pygame.sprite.Sprite):
 		self.constrain_position()
 		self.recharge()
 		self.lasers.update()
+
+	def reset(self):
+		self.rect = self.image.get_rect(midbottom = ((self.screen_width + self.offset)/2, self.screen_height))

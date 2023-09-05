@@ -7,19 +7,27 @@ from laser import Laser
 
 class Game():
     def __init__(self, screen_width, screen_height, offset):
+
+        self.lives = 3
+        self.lives_surface = pygame.image.load("Graphics/ship.png").convert_alpha()
+        self.score = 0
+        self.highscore = 0
+        self.load_highscore()
+ 
         self.screen_width = screen_width
         self.screen_height = screen_height
         self.offset = offset
         self.spaceship = pygame.sprite.GroupSingle()
         self.spaceship.add(Spaceship(screen_width, screen_height, offset))
-        self.obstacle_1 = Obstacle(screen_width/4 - 128,screen_height - 100)
-        self.obstacle_2 = Obstacle((screen_width/4)*2 - 128,screen_height - 100)
-        self.obstacle_3 = Obstacle((screen_width/4)*3 - 128,screen_height - 100)
-        self.obstacle_4 = Obstacle((screen_width/4)*4 - 128,screen_height - 100)
+        self.obstacle_1 = Obstacle(screen_width/4 - 110,screen_height - 100)
+        self.obstacle_2 = Obstacle((screen_width/4)*2 - 110,screen_height - 100)
+        self.obstacle_3 = Obstacle((screen_width/4)*3 - 110,screen_height - 100)
+        self.obstacle_4 = Obstacle((screen_width/4)*4 - 110,screen_height - 100)
         self.aliens = pygame.sprite.Group()
         self.alien_lasers = pygame.sprite.Group()
         self.mystery_ship = pygame.sprite.GroupSingle()
-        self.alien_direction = 1        
+        self.alien_direction = 1
+        self.run = True        
         self.create_aliens()
 
     def create_mystery_ship(self):
@@ -33,10 +41,16 @@ class Game():
                     if pygame.sprite.spritecollide(laser, obstacle.blocks, True):
                         laser.kill()
 
-                if pygame.sprite.spritecollide(laser, self.aliens, True):
-                    laser.kill()
+                aliens_hit = pygame.sprite.spritecollide(laser, self.aliens, True)
+                if aliens_hit:
+                    for alien in aliens_hit:
+                        self.score += alien.type * 100
+                        self.check_for_highscore()
+                        laser.kill()
 
                 if pygame.sprite.spritecollide(laser, self.mystery_ship, True):
+                    self.score += 500
+                    self.check_for_highscore()
                     laser.kill()
 
         #Aliens Laser
@@ -46,7 +60,10 @@ class Game():
                     if pygame.sprite.spritecollide(laser, obstacle.blocks, True):
                         laser.kill()
                 if pygame.sprite.spritecollide(laser, self.spaceship, False):
-                    print("Game Over!")
+                    laser.kill()
+                    self.lives -= 1
+                    if self.lives == 0:
+                        self.game_over()
 
     def create_aliens(self):
         for row in range(5):
@@ -81,3 +98,39 @@ class Game():
             random_alien = random.choice(self.aliens.sprites())
             laser_sprite = Laser(random_alien.rect.center, -6, self.screen_height)
             self.alien_lasers.add(laser_sprite)
+
+    def game_over(self):
+        self.run = False
+
+    def reset(self):
+        self.run = True
+        self.lives = 3
+        self.spaceship.sprite.reset()
+        self.aliens.empty()
+        self.create_aliens()
+        self.spaceship.sprite.lasers.empty()
+        self.alien_lasers.empty()
+
+        # Recreate the obstacles
+        self.obstacle_1 = Obstacle(self.screen_width / 4 - 110, self.screen_height - 100)
+        self.obstacle_2 = Obstacle((self.screen_width / 4) * 2 - 110, self.screen_height - 100)
+        self.obstacle_3 = Obstacle((self.screen_width / 4) * 3 - 110, self.screen_height - 100)
+        self.obstacle_4 = Obstacle((self.screen_width / 4) * 4 - 110, self.screen_height - 100)
+
+        self.score = 0
+
+    def check_for_highscore(self):
+        if self.score > self.highscore:
+            self.highscore = self.score
+
+        # Save the highscore to a file
+        with open('highscore.txt', 'w') as file:
+            file.write(str(self.highscore))
+
+    def load_highscore(self):
+        try:
+            with open('highscore.txt', 'r') as file:
+                self.highscore = int(file.read())
+        except FileNotFoundError:
+        # If the file doesn't exist, set a default highscore
+            self.highscore = 0
