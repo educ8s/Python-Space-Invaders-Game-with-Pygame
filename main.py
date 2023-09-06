@@ -35,7 +35,7 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-        if event.type == ALIENLASER:
+        if event.type == ALIENLASER and game.run:
             game.alien_shoot_laser()
         if event.type == MYSTERYSHIP and game.run:
             game.create_mystery_ship()

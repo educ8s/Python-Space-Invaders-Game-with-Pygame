@@ -5,6 +5,7 @@ class Spaceship(pygame.sprite.Sprite):
 
 	def __init__(self, screen_width, screen_height, offset):
 		super().__init__()
+		self.offset = offset
 		self.image = pygame.image.load("Graphics/ship.png")
 		self.rect = self.image.get_rect(midbottom = ((screen_width+offset)/2, screen_height))
 		self.speed = 5
@@ -37,8 +38,8 @@ class Spaceship(pygame.sprite.Sprite):
 				self.laser_ready = True
 
 	def constrain_position(self):
-		if self.rect.left < 0:
-			self.rect.x = 0
+		if self.rect.left < self.offset:
+			self.rect.x = self.offset
 		if self.rect.right > self.screen_width:
 			self.rect.right = self.screen_width
 

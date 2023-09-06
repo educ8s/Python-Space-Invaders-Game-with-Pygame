@@ -22,7 +22,7 @@ class MysteryShip(pygame.sprite.Sprite):
 			self.speed = 3
 		else:
 			self.speed = -3
-		self.rect = self.image.get_rect(topleft = (x, 70))
+		self.rect = self.image.get_rect(topleft = (x, 80))
 
 	def update(self):
 		self.rect.x += self.speed 

@@ -65,6 +65,16 @@ class Game():
                     if self.lives == 0:
                         self.game_over()
 
+        if self.aliens:
+            for alien in self.aliens:
+                pygame.sprite.spritecollide(alien, self.obstacle_1.blocks, True)
+                pygame.sprite.spritecollide(alien, self.obstacle_2.blocks, True)
+                pygame.sprite.spritecollide(alien, self.obstacle_3.blocks, True)
+                pygame.sprite.spritecollide(alien, self.obstacle_4.blocks, True)
+
+                if pygame.sprite.spritecollide(alien, self.spaceship, False):
+                    self.game_over()
+
     def create_aliens(self):
         for row in range(5):
             for column in range(11):
