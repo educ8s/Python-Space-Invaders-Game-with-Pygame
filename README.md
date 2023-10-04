@@ -4,7 +4,7 @@
 
 For an in-depth tutorial on creating your own Space Invaders game using pygame, watch the accompanying <a href="https://youtu.be/PFMoo_dvhyw">Video Tutorial on YouTube</a>. 🎬👨‍💻 The tutorial walks you through each code line, explaining its logic and demonstrating its impact on the game. Learn how to set up the game window, create classes for game elements, implement collision detection, and add sound effects. By the end of the tutorial, you'll have a fully functional Space Invaders game ready for play and customization. ☕ Grab a coffee and join us on an exciting journey into the world of pygame game development! 🌌
 
-Video Tutorial
+# Video Tutorial
 <p align="center">
   <img src="preview.jpg" alt="" width="960">
 </p>
