@@ -80,7 +80,6 @@ while True:
     highscore_surface = font.render(formatted_highscore, False, YELLOW)
     screen.blit(highscore_surface, (625, 40, 50, 50))
 
-
     game.spaceship_group.draw(screen)
     game.spaceship_group.sprite.lasers_group.draw(screen)
     for obstacle in game.obstacles:
